@@ -3,8 +3,7 @@ import process from 'process';
 import path from 'path';
 
 const readFile = (file) => {
-  const dirname = process.cwd();
-  const filepath = path.resolve(dirname, '__fixtures__', file);
+  const filepath = path.resolve(process.cwd(), file);
   console.log(filepath);
   const data = fs.readFileSync(filepath, 'utf8');
   return data;
