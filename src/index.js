@@ -1,13 +1,4 @@
-import * as fs from 'fs';
-import process from 'process';
-import path from 'path';
-
-const readFile = (file) => {
-  const filepath = path.resolve(process.cwd(), file);
-  console.log(filepath);
-  const data = fs.readFileSync(filepath, 'utf8');
-  return data;
-};
+import parse from './parsers.js';
 
 const checkElement = (key, obj1, obj2) => {
   if (!Object.keys(obj1).includes(key)) return ` + ${key}: ${obj2[key]}`;
@@ -15,13 +6,13 @@ const checkElement = (key, obj1, obj2) => {
 
   if (obj1[key] === obj2[key]) return `   ${key}: ${obj1[key]}`;
 
-  return ` - ${key}: ${obj1[key]}\n + ${key}: ${obj2[key]}`;
+  return ` - ${key}: ${obj1[key]}\n  + ${key}: ${obj2[key]}`;
 };
 
 const genDiff = (filepath1, filepath2) => {
   // здесь читаем значения из файлов
-  const obj1 = JSON.parse(readFile(filepath1));
-  const obj2 = JSON.parse(readFile(filepath2));
+  const obj1 = parse(filepath1);
+  const obj2 = parse(filepath2);
 
   const keys = Object.keys({ ...obj1, ...obj2 }).sort();
 
@@ -31,11 +22,18 @@ const genDiff = (filepath1, filepath2) => {
     return acc;
   }, ['{']);
 
-  arr.push('}');
-  const result = arr.join('\n');
+  const result = arr.join('\n ').concat('\n}');
   console.log(result);
 
   return result;
 };
 
 export default genDiff;
+
+// {
+//   name: key,
+//     status : added | deleted | changed | unchanged,
+//       newValue : value,
+//         oldValue: value,
+//           children: [key, key]
+// }
