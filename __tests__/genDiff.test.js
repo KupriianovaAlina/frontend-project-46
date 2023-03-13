@@ -1,14 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { test, expect } from '@jest/globals';
 
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import * as path from 'path';
 import genDiff from '../src/index.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join('__fixtures__', filename);
 
 test('genDiff stylish json', () => {
   const path1 = getFixturePath('file1.json');
@@ -75,7 +71,7 @@ test('genDiff stylish yml', () => {
         }
         setting6: {
             doge: {
-              - wow:
+              - wow: 
               + wow: so much
             }
             key: value
