@@ -1,11 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as fs from 'fs';
-import process from 'process';
-import path from 'path';
 import yaml from 'js-yaml';
 
-const readFile = (file) => {
-  const filepath = path.resolve(process.cwd(), file);
+const readFile = (filepath) => {
   const data = fs.readFileSync(filepath, 'utf8');
   return data;
 };
