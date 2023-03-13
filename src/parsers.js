@@ -25,7 +25,7 @@ const parse = (filepath) => {
   let parsedData;
   if (extension === 'json') {
     parsedData = JSON.parse(data);
-  } else if (extension === 'yml' && extension === 'yaml') {
+  } else if (extension === 'yml' || extension === 'yaml') {
     parsedData = yaml.load(data);
   }
   return parsedData;
