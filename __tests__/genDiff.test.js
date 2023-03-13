@@ -2,7 +2,7 @@
 import { test, expect } from '@jest/globals';
 
 import * as path from 'path';
-import genDiff from '../src/index.js';
+import genDiff from '../src/genDiff.js';
 
 const getFixturePath = (filename) => path.join('__fixtures__', filename);
 
