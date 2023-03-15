@@ -4,15 +4,13 @@ const styleValue = (itemValue, oldDepth) => {
   if (!_.isObject(itemValue) || itemValue === null) return `${itemValue}`;
 
   const stringify = (data, depth) => {
-    let result = '{';
     const levelIndent = ' '.repeat((depth + 2) * 2);
     const closeIndent = ' '.repeat((depth) * 2 + 2);
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(data)) {
+    const result = Object.entries(data).reduce((acc, [key, value]) => {
       const stringifyValue = (typeof value === 'object' && value !== null) ? stringify(value, depth + 2) : value;
-      result = `${result}\n${levelIndent}  ${key}: ${stringifyValue}`;
-    }
+      return `${acc}\n${levelIndent}  ${key}: ${stringifyValue}`;
+    }, '{');
 
     return `${result}\n${closeIndent}}`;
   };
