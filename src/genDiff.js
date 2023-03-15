@@ -36,10 +36,11 @@ const genDiff = (filepath1, filepath2, formatName) => {
       return [...acc, element];
     }, []);
 
-    return result;
+    return _.sortBy(result, ['name']);
   };
 
   if (formatName === 'plain') return plain(bulidDiff(parsedFile1, parsedFile2));
+  if (formatName === 'json') return JSON.stringify(bulidDiff(parsedFile1, parsedFile2));
   return stylish(bulidDiff(parsedFile1, parsedFile2));
 };
 
