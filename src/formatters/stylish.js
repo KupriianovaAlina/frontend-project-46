@@ -8,6 +8,11 @@ const styleValue = (itemValue, oldDepth) => {
     const levelIndent = ' '.repeat((depth + 2) * 2);
     const closeIndent = ' '.repeat((depth) * 2 + 2);
 
+    // const result = Object.entries(data).map((acc, [key, value]) => {
+    //   const stringifyValue = (typeof value === 'object' && value !== null) ? stringify(value, depth + 2) : value;
+    //   return `${acc}\n${levelIndent}  ${key}: ${stringifyValue}`;
+    // }, '');
+
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(data)) {
       const stringifyValue = (typeof value === 'object' && value !== null) ? stringify(value, depth + 2) : value;

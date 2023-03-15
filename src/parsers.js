@@ -8,8 +8,8 @@ const readFile = (filepath) => {
 };
 
 const getFileExtension = (filepath) => {
-  const extension = filepath.split('.').pop();
-  return extension;
+  const extension = filepath.split('.');
+  return extension[extension.length - 1];
 };
 
 const parse = (filepath) => {
@@ -19,13 +19,8 @@ const parse = (filepath) => {
   const extension = getFileExtension(filepath);
 
   // преобразуем в объект в зависимости от расширения
-  let parsedData;
-  if (extension === 'json') {
-    parsedData = JSON.parse(data);
-  } else if (extension === 'yml' || extension === 'yaml') {
-    parsedData = yaml.load(data);
-  }
-  return parsedData;
+  if (extension === 'yml' || extension === 'yaml') return yaml.load(data);
+  return JSON.parse(data);
 };
 
 export default parse;
