@@ -4,8 +4,8 @@ const styleValue = (itemValue, oldDepth) => {
   if (!_.isObject(itemValue) || itemValue === null) return `${itemValue}`;
 
   const stringify = (data, depth) => {
-    const levelIndent = ' '.repeat((depth + 2) * 2);
-    const closeIndent = ' '.repeat((depth) * 2 + 2);
+    const levelIndent = ' '.repeat(depth * 2 + 4);
+    const closeIndent = ' '.repeat(depth * 2 + 2);
 
     const result = Object.entries(data).reduce((acc, [key, value]) => {
       const stringifyValue = (typeof value === 'object' && value !== null) ? stringify(value, depth + 2) : value;
@@ -21,17 +21,19 @@ const styleValue = (itemValue, oldDepth) => {
 const stylish = (tree) => {
   const stringifyWithDepth = (node, depth) => {
     const levelIndent = ' '.repeat(depth * 2);
-    const closeIndent = ' '.repeat((depth - 1) * 2);
+    const closeIndent = ' '.repeat(depth * 2 - 2);
     const result = '{';
 
-    const body = node.reduce((acc, item) => {
-      if (item.status === 'added') return `${acc}\n${levelIndent}+ ${item.name}: ${styleValue(item.newValue, depth)}`;
-      if (item.status === 'deleted') return `${acc}\n${levelIndent}- ${item.name}: ${styleValue(item.oldValue, depth)}`;
-      if (item.status === 'unchanged') return `${acc}\n${levelIndent}  ${item.name}: ${styleValue(item.oldValue, depth)}`;
-      if (item.status === 'changed') return `${acc}\n${levelIndent}- ${item.name}: ${styleValue(item.oldValue, depth)}\n${levelIndent}+ ${item.name}: ${styleValue(item.newValue, depth)}`;
+    const body = node.reduce((acc, {
+      name, status, oldValue, newValue, children,
+    }) => {
+      if (status === 'added') return `${acc}\n${levelIndent}+ ${name}: ${styleValue(newValue, depth)}`;
+      if (status === 'deleted') return `${acc}\n${levelIndent}- ${name}: ${styleValue(oldValue, depth)}`;
+      if (status === 'unchanged') return `${acc}\n${levelIndent}  ${name}: ${styleValue(oldValue, depth)}`;
+      if (status === 'changed') return `${acc}\n${levelIndent}- ${name}: ${styleValue(oldValue, depth)}\n${levelIndent}+ ${name}: ${styleValue(newValue, depth)}`;
 
       // если дети в обоих файлах были объектами, статус 'has children'
-      return `${acc}\n${levelIndent}  ${item.name}: ${stringifyWithDepth(item.children, depth + 2)}`;
+      return `${acc}\n${levelIndent}  ${name}: ${stringifyWithDepth(children, depth + 2)}`;
     }, '');
 
     return `${result}${body}\n${closeIndent}}`;
