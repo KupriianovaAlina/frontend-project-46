@@ -3,7 +3,7 @@ import _ from 'lodash';
 const stringify = (item) => {
   if (_.isObject(item)) return '[complex value]';
   if (typeof item === 'string') return `'${item}'`;
-  return item;
+  return String(item);
 };
 
 const plain = (tree, path) => {

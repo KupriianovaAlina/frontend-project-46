@@ -2,14 +2,14 @@
 import { test, expect } from '@jest/globals';
 
 import * as path from 'path';
-import genDiff from '../src/genDiff.js';
+import buildDiff from '../src/index.js';
 
 const getFixturePath = (filename) => path.join('__fixtures__', filename);
 
-test('genDiff stylish json', () => {
+test('buildDiff stylish json', () => {
   const path1 = getFixturePath('file1.json');
   const path2 = getFixturePath('file2.json');
-  expect(genDiff(path1, path2, 'stylish')).toBe(`{
+  expect(buildDiff(path1, path2, 'stylish')).toBe(`{
     common: {
       + follow: false
         setting1: Value 1
@@ -55,10 +55,10 @@ test('genDiff stylish json', () => {
 }`);
 });
 
-test('genDiff stylish yml', () => {
+test('buildDiff stylish yml', () => {
   const path1 = getFixturePath('file1.yml');
   const path2 = getFixturePath('file2.yml');
-  expect(genDiff(path1, path2, 'stylish')).toBe(`{
+  expect(buildDiff(path1, path2, 'stylish')).toBe(`{
     common: {
       + follow: false
         setting1: Value 1
@@ -104,10 +104,10 @@ test('genDiff stylish yml', () => {
 }`);
 });
 
-test('genDiff plain json', () => {
+test('buildDiff plain json', () => {
   const path1 = getFixturePath('file1.json');
   const path2 = getFixturePath('file2.json');
-  expect(genDiff(path1, path2, 'plain')).toBe(`Property 'common.follow' was added with value: false
+  expect(buildDiff(path1, path2, 'plain')).toBe(`Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
 Property 'common.setting4' was added with value: 'blah blah'
@@ -120,10 +120,10 @@ Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`);
 });
 
-test('genDiff plain yml', () => {
+test('buildDiff plain yml', () => {
   const path1 = getFixturePath('file1.yml');
   const path2 = getFixturePath('file2.yml');
-  expect(genDiff(path1, path2, 'plain')).toBe(`Property 'common.follow' was added with value: false
+  expect(buildDiff(path1, path2, 'plain')).toBe(`Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
 Property 'common.setting4' was added with value: 'blah blah'
