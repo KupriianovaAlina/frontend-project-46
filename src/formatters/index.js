@@ -8,9 +8,7 @@ export default (diff, formatName) => {
       return plain(diff);
     case 'json':
       return jsonFormat(diff);
-    case 'stylish':
-      return stylish(diff);
     default:
-      throw new Error(`output format ${formatName} not found`);
+      return stylish(diff);
   }
 };
