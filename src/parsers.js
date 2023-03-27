@@ -8,17 +8,9 @@ const readFile = (filepath) => {
   return data;
 };
 
-const getParser = (type) => {
-  switch (type) {
-    case '.json':
-      return JSON.parse;
-    case '.yaml':
-    case '.yml':
-      return yaml.load;
-    default:
-      throw new Error(`Unknown file type: '${type}'!`);
-  }
-};
+const parsers = { json: JSON.parse, yaml: yaml.load, yml: yaml.load };
+
+const getParser = (typeFile) => parsers[typeFile];
 
 const parse = (filepath) => {
   // читаем файл
