@@ -4,7 +4,7 @@ const genDiff = (object1, object2) => {
   const keys = Object.keys({ ...object1, ...object2 });
 
   const checkElement = (key, obj1, obj2) => {
-    // самые простые случаи - новые и удаленные ключи
+    // самые простые случаи: новые и удаленные ключи
     if (!Object.keys(obj1).includes(key)) return { status: 'added', newValue: obj2[key] };
     if (!Object.keys(obj2).includes(key)) return { status: 'deleted', oldValue: obj1[key] };
 
@@ -13,7 +13,7 @@ const genDiff = (object1, object2) => {
     if (!(_.isObject(obj1[key]) && _.isObject(obj2[key]))) {
       // случай: ключ есть, значения равны
       if (obj1[key] === obj2[key]) return { status: 'unchanged', oldValue: obj1[key] };
-      // случай: ключ есть, значения не равны, но это не 2 объекта одновременно, так что нам пофиг
+      // случай: ключ есть, значения равны, но не 2 объекта одновременно
       return { status: 'changed', oldValue: obj1[key], newValue: obj2[key] };
     }
 
